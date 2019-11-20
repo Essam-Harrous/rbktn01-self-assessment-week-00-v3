@@ -13,36 +13,36 @@
 //
 // EXAMPLE:
 //
-// var familyTree = {
-//   'firstName': 'Beth',
-//   'lastName': 'Johnson',
-//   'location': 'San Francisco',
-//   'children': [
-//     {
-//       'firstName': 'Beth Jr.',
-//       'lastName': 'Johnson',
-//       'location': 'Berkeley',
-//       'children': [
-//         {
-//           'firstName': 'Smitty',
-//           'lastName': 'Won',
-//           'location': 'Beijing',
-//           'children': []
-//         }
-//       ]
-//     },
-//     {
-//       'firstName': 'Joshie',
-//       'lastName': 'Wyattson',
-//       'location': 'Berkeley',
-//       'children': []
-//     }
-//   ]
-// };
+var familyTree = {
+  'firstName': 'Beth',
+  'lastName': 'Johnson',
+  'location': 'San Francisco',
+  'children': [
+    {
+      'firstName': 'Beth Jr.',
+      'lastName': 'Johnson',
+      'location': 'Berkeley',
+      'children': [
+        {
+          'firstName': 'Smitty',
+          'lastName': 'Won',
+          'location': 'Beijing',
+          'children': []
+        }
+      ]
+    },
+    {
+      'firstName': 'Joshie',
+      'lastName': 'Wyattson',
+      'location': 'Berkeley',
+      'children': []
+    }
+  ]
+};
 //
-// var livesInBerkeley = function (familyMember) {
-//   return familyMember.location === 'Berkeley';
-// }
+var livesInBerkeley = function (familyMember) {
+  return familyMember.location === 'Berkeley';
+}
 //
 // filterFamilyMembers(familyTree, livesInBerkeley)
 //
@@ -50,7 +50,28 @@
 
 
 
-var filterFamilyMembers = function (familyTree, truthTest) {
+var filterFamilyMembers = function (familyTree, truthTest, result) {
   // All your code in this function body
-};
+  var result = result || []
+  if (Array.isArray(familyTree)) {
+  	if (familyTree.length){
+	  	for (var i = 0; i < familyTree.length; i++) {
+	  		if (truthTest(familyTree[i])) {
+	  			result.push(familyTree[i].firstName + ' ' + familyTree[i].lastName);
+	  		}
+  			filterFamilyMembers(familyTree[i].children, truthTest, result);
+	  	}
+	  	return result;
+  	}else {
+  		return;
 
+  	}
+
+  }else {
+	  if(truthTest(familyTree)){
+ 			result.push(familyTree.firstName + ' ' + familyTree.lastName);
+	  }
+	  filterFamilyMembers(familyTree.children, truthTest, result);
+	}
+	return result;
+};
